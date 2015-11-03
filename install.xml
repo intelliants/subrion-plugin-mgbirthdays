@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin name="mgbirthdays">
+	<title>mgBirthdays</title>
+	<summary>Contains over 5000 birthdays of famous people</summary>
+	<author>ModsGuru</author>
+	<contributor>ModsGuru</contributor>
+	<version>3.0.2</version>
+	<date>2015-03-12</date>
+	<compatibility>3.0</compatibility>
+
+	<hooks>
+		<hook name="phpCoreBeforePageDisplay" page_type="front">
+			<![CDATA[
+if (iaView::REQUEST_HTML == $iaView->getRequestType() && $iaView->blockExists('mgbirthdays'))
+{
+	$birthdays = $iaCore->iaDb->all(iaDb::ALL_COLUMNS_SELECTION, "MONTH(`birthday`) = MONTH(NOW()) AND DAY(`birthday`) = DAY(NOW()) ORDER BY `birthday` ASC ", 0, null, 'mg_birthdays');
+	$iaView->assign('birthdays', $birthdays);
+}
+	]]>
+		</hook>
+	</hooks>
+
+	<phrases>
+		<phrase key="today_birthdays" category="frontend">These famous people were born on</phrase>
+	</phrases>
+
+	<blocks>
+		<block name="mgbirthdays" title="Birthdays" collapsible="1" position="right" type="smarty" sticky="0" pages="index">
+			<![CDATA[
+<p>{lang key='today_birthdays'} {$smarty.now|date_format:"%e %B"}.</p>
+<ol>
+{foreach $birthdays as $birthday}
+	<li>{$birthday.birthday|truncate:4:''} - {$birthday.Name}</li>
+{/foreach}
+</ol>
+			]]>
+		</block>
+	</blocks>
+
+	<install>
+		<sql>
+			<![CDATA[
+CREATE TABLE IF NOT EXISTS `{prefix}mg_birthdays` (
+	`ID` smallint(5) unsigned NOT NULL auto_increment,
+	`birthday` date NOT NULL default '0000-00-00',
+	`Name` varchar(255) NOT NULL,
+	PRIMARY KEY  (`ID`)
+) {mysql_version};
+			]]>
+		</sql>
+
+		<sql external="1">dumps/birthdays.zip</sql>
+	</install>
+
+	<uninstall>
+		<sql>
+			<![CDATA[
+DROP TABLE IF EXISTS `{prefix}mg_birthdays`;
+			]]>
+		</sql>
+	</uninstall>
+</plugin>
