@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin name="mgbirthdays">
+<module type="plugin" name="mgbirthdays">
 	<title>mgBirthdays</title>
 	<summary>Contains over 5000 birthdays of famous people</summary>
-	<author>ModsGuru</author>
-	<contributor>ModsGuru</contributor>
-	<version>3.0.2</version>
-	<date>2015-03-12</date>
-	<compatibility>3.0</compatibility>
+	<author>Intelliants LLC</author>
+	<contributor>Intelliants LLC</contributor>
+	<version>4.1.0</version>
+	<date>2017-02-22</date>
+	<compatibility>4.1</compatibility>
 
 	<hooks>
 		<hook name="phpCoreBeforePageDisplay" page_type="front">
@@ -59,4 +59,4 @@ DROP TABLE IF EXISTS `{prefix}mg_birthdays`;
 			]]>
 		</sql>
 	</uninstall>
-</plugin>
+</module>
